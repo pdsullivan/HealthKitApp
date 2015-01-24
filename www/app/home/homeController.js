@@ -10,15 +10,29 @@
         '$scope',
         '$ionicModal',
         '$state',
+        '$ionicLoading',
+        '$timeout',
         homeController]);
 
     function homeController($scope,
                                   $ionicModal,
-                                  $state) {
+                                  $state,
+                                  $ionicLoading,
+                                  $timeout) {
+
+        $scope.loadData = function(){
+            $ionicLoading.show({
+                template: 'Importing Data...'
+            });
+            $timeout(function() {
+                $ionicLoading.hide();
+            }, 1100);
+        };
 
         $scope.$on('$ionicView.beforeEnter', function(){
             //
         });
+
 
 
     };
