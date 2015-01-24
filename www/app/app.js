@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   .state('app', {
     url: "/app",
     abstract: true,
-    templateUrl: "templates/menu.html",
+    templateUrl: "app/menu/menu.html",
     controller: 'AppCtrl'
   })
 
