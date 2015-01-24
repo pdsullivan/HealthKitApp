@@ -33,3 +33,27 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.light-wight{
+  font-weight: 100 !important;
+}
+h1,h2,h3, h4, h5, h6, p, span, small .h1, .h2, .h3, .h4, .h5, .h6 .item, .item-divider {
+  font-weight: 200;
+}
+
+.bar .title {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+  margin: 0 10px;
+  min-width: 30px;
+  height: 43px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 200;
+  line-height: 44px;
+}
