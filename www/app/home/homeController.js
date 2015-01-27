@@ -12,13 +12,15 @@
         '$state',
         '$ionicLoading',
         '$timeout',
+        '$cordovaHealthKit',
         homeController]);
 
     function homeController($scope,
                                   $ionicModal,
                                   $state,
                                   $ionicLoading,
-                                  $timeout) {
+                                  $timeout,
+                                  $cordovaHealthKit) {
 
         $scope.loadData = function(){
             $ionicLoading.show({
