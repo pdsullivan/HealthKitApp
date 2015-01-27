@@ -10,6 +10,19 @@ angular.module('app', ['ngCordova','ionic', 'app.controllers'])
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    console.log('about to ask for access');
+    if (window.plugins && window.plugins.healthkit) {
+
+      window.plugins.healthkit.available(
+          function (isAvailable) {
+            alert(isAvailable ? "HealthKit available :)" : "No HealthKit on this device :(");
+
+          }
+      );
+    } else {
+      alert('healthkit not available.');
+    }
+
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
