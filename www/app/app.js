@@ -17,10 +17,10 @@ angular.module('app', ['ngCordova','ionic', 'app.controllers'])
           function (isAvailable) {
             alert(isAvailable ? "HealthKit available :)" : "No HealthKit on this device :(");
             var readTypes = readTypes || [
-              'HKCharacteristicTypeIdentifierDateOfBirth', 'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierHeight'
+              'HKCharacteristicTypeIdentifierDateOfBirth', 'HKQuantityTypeIdentifierStepCount', 'HKQuantityTypeIdentifierHeight'
             ];
             var writeTypes = writeTypes || [
-              'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierHeight', 'HKQuantityTypeIdentifierDistanceCycling'
+              'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierStepCount', 'HKQuantityTypeIdentifierDistanceCycling'
             ];
 
             window.plugins.healthkit.requestAuthorization({
