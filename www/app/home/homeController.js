@@ -34,7 +34,8 @@
         //        }
         //    );
         //}
-
+        $scope.test = "blahhh";
+        $scope.steps = null;
 
         $scope.loadData = function(){
             $ionicLoading.show({
@@ -75,20 +76,15 @@
         //feel free to modify this in any way, just trying to get steps to return the same as healthkit
         $scope.getSteps = function(startDate, endDate)
         {
-            var tests = new Date(startDate).getTime();
-            var teste = new Date(startDate).getTime() + 86400000 ;
+            //clean this up
+            var tests = new Date(startDate).setHours(0);
+            var teste = new Date(endDate).setHours(23);
             startDate= new Date(tests);
             endDate= new Date(teste);
             
             function onSuccess(result) {
-                
                 var totalSteps = 0;
-                var dataString = JSON.stringify(result);
-                
-                var data = angular.fromJson(dataString);
-
-                angular.forEach(data, function(record) {
-                    //alert(record.startDate + ' - ' + record.endDate + ' - ' + record.quantity);
+                angular.forEach(result, function(record) {
                     totalSteps=((totalSteps)+(record.quantity));
                 });                
                 
@@ -99,16 +95,11 @@
                 alert("Error: " + JSON.stringify(result));
             };            
             
-            var yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            var tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            
             window.plugins.healthkit.querySampleType(
               {
                 //'startDate' : new Date(new Date().getTime()-2*24*60*60*1000), // two days ago
-                'startDate' : yesterday,
-                'endDate'   : tomorrow, // now
+                'startDate' : startDate,
+                'endDate'   : endDate, // now
                 'sampleType': 'HKQuantityTypeIdentifierStepCount',
                 'unit'      : 'count' // make sure this is compatible with the sampleType
               },

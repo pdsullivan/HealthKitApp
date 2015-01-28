@@ -13,9 +13,17 @@
                         Load DOB
                     </button>
                     
-                    <button class="button button-full button-light" ng-click="getSteps('01/27/2015','01/27/2015')">
+                    <input type="date" ng-model="viewDate" />
+                    
+                    <button class="button button-full button-light" ng-click="getSteps('01/28/2015','01/28/2015')">
                         Get Steps
-                    </button>                    
+                    </button>       
+                    {{test}}
+                    <ion-list>
+                      <ion-item ng-repeat="item in steps">
+                          {{item.startDate}} <br /> {{item.endDate}} <br /> {{item.quantity}}
+                      </ion-item>
+                    </ion-list>                    
 
                 </div>
                 <!--<div class="item button-positive" ng-click="">-->
