@@ -78,7 +78,10 @@
         {
             //clean this up
             var tests = new Date(startDate).setHours(0);
-            var teste = new Date(endDate).setHours(23);
+            var teste = new Date(new Date(endDate).setHours(29));
+                teste = new Date(new Date(teste).setMinutes(59));
+                teste = new Date(new Date(teste).setSeconds(59));
+            
             startDate= new Date(tests);
             endDate= new Date(teste);
             
