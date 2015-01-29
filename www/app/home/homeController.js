@@ -1,5 +1,6 @@
 /**
  * Created by patricksullivan on 1/24/15.
+ * Modifed by loganmoore on 1/28/15.
  */
 
 
@@ -19,23 +20,10 @@
                                   $ionicModal,
                                   $state,
                                   $ionicLoading,
-                                  $timeout
-                                  //,$cordovaHealthKit
+                                  $timeout,
+                                  $q
     ) {
 
-
-        //console.log('about to ask for access');
-        //if (window.cordova && window.cordova.plugins.healthkit) {
-        //
-        //    window.plugins.healthkit.available(
-        //        function (isAvailable) {
-        //            alert(isAvailable ? "HealthKit available :)" : "No HealthKit on this device :(");
-        //
-        //        }
-        //    );
-        //}
-        $scope.test = "blahhh";
-        $scope.steps = null;
 
         $scope.loadData = function(){
             $ionicLoading.show({
@@ -45,6 +33,7 @@
                 $ionicLoading.hide();
             }, 1100);
         };
+        
 
         $scope.loadDOB = function(){
             function onSuccess(result) {
@@ -60,56 +49,65 @@
                 onSuccess, // yyyy-mm-dd ("1977-04-22")
                 onError
             );
-            //$ionicLoading.show({
-            //    template: 'Importing Data...'
-            //});
-            //
-            //$cordovaHealthKit.readDateOfBirth().then(function(dob) {
-            //    $scope.dob = dob;
-            //    $ionicLoading.hide();
-            //}, function(err) {
-            //    alert(err);
-            //    $ionicLoading.hide();
-            //});
+
         }
         
-        //feel free to modify this in any way, just trying to get steps to return the same as healthkit
-        $scope.getSteps = function(startDate, endDate)
+        
+        //returns total of type specified
+        var getSampleTypeTotal = function(startDate,endDate,type,unit)
         {
-            //clean this up
-            var tests = new Date(startDate).setHours(0);
-            var teste = new Date(new Date(endDate).setHours(29));
-                teste = new Date(new Date(teste).setMinutes(59));
-                teste = new Date(new Date(teste).setSeconds(59));
+            var deferred = $q.defer();
             
-            startDate= new Date(tests);
-            endDate= new Date(teste);
-            
+            //still geared towards steps at this point, need to abstract this
             function onSuccess(result) {
                 var totalSteps = 0;
                 angular.forEach(result, function(record) {
                     totalSteps=((totalSteps)+(record.quantity));
                 });                
-                
-                alert("You walked "+totalSteps+" steps on "+startDate);
+                alert(totalSteps);
+                //return totalSteps;
+                deferred.resolve(totalSteps);
             };
 
             function onError(result) {
                 alert("Error: " + JSON.stringify(result));
+                deferred.reject("Error: " + JSON.stringify(result));
             };            
             
             window.plugins.healthkit.querySampleType(
               {
-                //'startDate' : new Date(new Date().getTime()-2*24*60*60*1000), // two days ago
                 'startDate' : startDate,
                 'endDate'   : endDate, // now
-                'sampleType': 'HKQuantityTypeIdentifierStepCount',
-                'unit'      : 'count' // make sure this is compatible with the sampleType
+                'sampleType': type,
+                'unit'      : unit // make sure this is compatible with the sampleType
               },
               onSuccess,
               onError
-            );            
+            );                        
+            
+            return deferred.promise;
         }
+        
+        
+        //get the total steps for a specified date range
+        $scope.getSteps = function(startDate, endDate)
+        {
+            
+            //clean this up
+            var ds = new Date(startDate).setHours(0);
+            var de = new Date(new Date(endDate).setHours(23));
+                de = new Date(new Date(de).setMinutes(59));
+                de = new Date(new Date(de).setSeconds(59));
+            
+            startDate= new Date(ds);
+            endDate= new Date(de);
+            
+            var totalSteps = getSampleTypeTotal(startDate,endDate,'HKQuantityTypeIdentifierStepCount','count');
+            totalSteps.then(function(bob){
+                alert(bob);
+            });
+        }
+        
 
         $scope.$on('$ionicView.beforeEnter', function(){
             //
