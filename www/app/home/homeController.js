@@ -13,6 +13,7 @@
         '$state',
         '$ionicLoading',
         '$timeout',
+        '$q',
         //'$cordovaHealthKit',
         homeController]);
 
@@ -64,8 +65,7 @@
                 angular.forEach(result, function(record) {
                     totalSteps=((totalSteps)+(record.quantity));
                 });                
-                alert(totalSteps);
-                //return totalSteps;
+                
                 deferred.resolve(totalSteps);
             };
 
@@ -103,8 +103,10 @@
             endDate= new Date(de);
             
             var totalSteps = getSampleTypeTotal(startDate,endDate,'HKQuantityTypeIdentifierStepCount','count');
-            totalSteps.then(function(bob){
-                alert(bob);
+            totalSteps.then(function(data) {
+                alert(data);
+            }, function(error) {
+                console.log('Failure...', error);
             });
         }
         
